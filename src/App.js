@@ -1,23 +1,33 @@
-import logo from './logo.svg';
+import { useState } from 'react';
 import './App.css';
+import UserList from './Components/UserList';
+import { faker } from '@faker-js/faker';
 
 function App() {
+
+  const [users, setUsers] = useState([]);
+
+  const getRandomInt = () => {
+    return Math.floor(Math.random() * 1000);
+  }
+
+  const addUser = () => {
+    // generate a random user
+    const user = {
+      id: getRandomInt(),
+      name: faker.name.fullName(),
+      email: faker.internet.email()
+    };
+
+    // merge new user into array of users!
+    setUsers(previousUsers => [...previousUsers, user]);
+  };
+
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <button onClick={addUser}>Add User!</button>
+      <UserList users={users} />
     </div>
   );
 }
